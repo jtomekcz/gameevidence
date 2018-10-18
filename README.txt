@@ -1,0 +1,2 @@
+- vytvoreni DB
+create table PLAYER (id integer not null auto_increment, alias varchar(255), winners_count number, losts_count number, valid varchar(1), valid_from date, valid_to date, primary key (id));
