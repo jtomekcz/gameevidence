@@ -42,11 +42,50 @@ definitions:
         type: string
         description: alias of given player
       winnersCount:
-        type: number
+        type: integer
         format: int32
         description: count of players winners
       lostsCount:
-        type: number
+        type: integer
+        format: int32
+        description: count of players losts
+
+  ##--
+  Team:
+    type: object
+    properties:
+      alias:
+        type: string
+        description: alias of given team
+      winnersCount:
+        type: integer
+        format: int32
+        description: count of players winners
+      lostsCount:
+        type: integer
+        format: int32
+        description: count of players losts
+      maxPlayersCount:
+        type: integer
+        format: int32
+        description: maximum count of players in given team
+      players:
+        $ref: "#/definitions/PlayersList"
+
+
+  ##--
+  Game:
+    type: object
+    properties:
+      alias:
+        type: string
+        description: alias of given team
+      winnersCount:
+        type: integer
+        format: int32
+        description: count of players winners
+      lostsCount:
+        type: integer
         format: int32
         description: count of players losts
 

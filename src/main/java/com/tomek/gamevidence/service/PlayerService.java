@@ -27,9 +27,8 @@ public interface PlayerService {
 
   /**
    * Delete given {@link Player}.<br/>
-   * Given record of this entity will be set as not valid - {@link Player#valid} will be set on <code>false</code> and
-   * {@link Player#validTo} will be set on current time.
-   * @param player {@link Player} to detele
+   * Given record of this entity will be set as not valid - {@link com.tomek.gamevidence.domain.Player#validity}.
+   * @param alias of player to delete
    */
-  void deletePlayer(Player player);
+  void deletePlayer(String alias);
 }

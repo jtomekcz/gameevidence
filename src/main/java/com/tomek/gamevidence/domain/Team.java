@@ -1,19 +1,16 @@
 package com.tomek.gamevidence.domain;
 
-import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.UniqueElements;
-
 import javax.persistence.*;
-import java.time.Instant;
+import java.util.List;
 
 @Table
-@Entity(name = "PLAYER")
-public class Player implements DomainObject {
+@Entity(name = "TEAM")
+public class Team implements DomainObject{
 
   @Id
-  @Column(name = "id_player")
+  @Column(name = "id_team")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int idPlayer;
+  private int idTeam;
 
   @Column(name = "alias")
   private String alias;
@@ -24,19 +21,20 @@ public class Player implements DomainObject {
   @Column(name = "losts_count")
   private int lostsCount;
 
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinColumn(name = "id_team")
-  private Team team;
+  private int maxPlayersCount;
+
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "team")
+  private List<Player> players;
 
   @Embedded
-  private Validity validity;
+  protected Validity validity;
 
-  public int getIdPlayer() {
-    return idPlayer;
+  public int getIdTeam() {
+    return idTeam;
   }
 
-  public void setIdPlayer(int idPlayer) {
-    this.idPlayer = idPlayer;
+  public void setIdTeam(int idTeam) {
+    this.idTeam = idTeam;
   }
 
   public String getAlias() {
@@ -63,12 +61,20 @@ public class Player implements DomainObject {
     this.lostsCount = lostsCount;
   }
 
-  public Team getTeam() {
-    return team;
+  public int getMaxPlayersCount() {
+    return maxPlayersCount;
   }
 
-  public void setTeam(Team team) {
-    this.team = team;
+  public void setMaxPlayersCount(int maxPlayersCount) {
+    this.maxPlayersCount = maxPlayersCount;
+  }
+
+  public List<Player> getPlayers() {
+    return players;
+  }
+
+  public void setPlayers(List<Player> players) {
+    this.players = players;
   }
 
   public Validity getValidity() {

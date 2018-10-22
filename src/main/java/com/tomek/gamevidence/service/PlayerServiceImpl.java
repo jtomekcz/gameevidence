@@ -2,23 +2,24 @@ package com.tomek.gamevidence.service;
 
 import com.tomek.gameevidence.api.Player;
 import com.tomek.gamevidence.dao.PlayerDao;
+import com.tomek.gamevidence.exception.ClientException;
+import com.tomek.gamevidence.exception.Errors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
 
-  private final PlayerDao playerDao;
+  private final Logger LOGGER = LoggerFactory.getLogger(PlayerServiceImpl.class);
 
   @Autowired
-  public PlayerServiceImpl(PlayerDao playerDao) {
-    this.playerDao = playerDao;
-  }
+  private PlayerDao playerDao;
 
   @Transactional(readOnly = true)
   @Override
@@ -34,24 +35,27 @@ public class PlayerServiceImpl implements PlayerService {
   @Transactional
   @Override
   public void insert(Player player) {
+    com.tomek.gamevidence.domain.Player findedPlayer = playerDao.findByAlias(player.getAlias(), com.tomek.gamevidence.domain.Player.class);
+    if (findedPlayer != null) {
+      LOGGER.error("For given alias {} exists record.", player.getAlias());
+      throw new ClientException(Errors.ERR_UNIQUE_RECORD);
+    }
     com.tomek.gamevidence.domain.Player domainPlayer = new com.tomek.gamevidence.domain.Player();
     domainPlayer.setAlias(player.getAlias());
-    domainPlayer.setValid(true);
-    domainPlayer.setValidFrom(Instant.now());
-    domainPlayer.setValidTo(Instant.MAX);
     playerDao.insert(domainPlayer);
   }
 
   @Transactional(readOnly = true)
   @Override
   public Player findByAlias(String alias) {
-    return null;
+    return transformToApiPlayer(playerDao.findByAlias(alias, com.tomek.gamevidence.domain.Player.class));
   }
 
   @Transactional
   @Override
-  public void deletePlayer(Player player) {
-
+  public void deletePlayer(String alias) {
+    com.tomek.gamevidence.domain.Player playerToDelete = playerDao.findByAlias(alias, com.tomek.gamevidence.domain.Player.class);
+    playerToDelete.getValidity().setValid(false);
   }
 
   /**
@@ -59,9 +63,14 @@ public class PlayerServiceImpl implements PlayerService {
    * @param domainPlayer
    * @return
    */
-  private Player transformToApiPlayer(com.tomek.gamevidence.domain.Player domainPlayer) {
+  public static Player transformToApiPlayer(com.tomek.gamevidence.domain.Player domainPlayer) {
+    if (domainPlayer == null) {
+      return null;
+    }
     Player player = new Player();
     player.setAlias(domainPlayer.getAlias());
+    player.setWinnersCount(domainPlayer.getWinnersCount());
+    player.setLostsCount(domainPlayer.getLostsCount());
     return player;
   }
 }
