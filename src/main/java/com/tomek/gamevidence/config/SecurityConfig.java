@@ -1,19 +1,23 @@
 package com.tomek.gamevidence.config;
 
-//@Configuration
-public class SecurityConfig /*extends WebSecurityConfigurerAdapter*/ {
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-//  @Override
-//  protected void configure(HttpSecurity http) throws Exception {
-//
-//    http
-//            .csrf()
-//            .disable()
-//            .authorizeRequests()
-//            .anyRequest()
-//            .authenticated()
-//            .and()
-//            .httpBasic();
-//  }
+@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+
+    http
+            .csrf()
+            .disable()
+            .authorizeRequests()
+            .anyRequest()
+            .authenticated()
+            .and()
+            .httpBasic();
+  }
 
 }
