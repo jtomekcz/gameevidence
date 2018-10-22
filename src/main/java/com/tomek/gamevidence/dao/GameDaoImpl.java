@@ -1,23 +1,21 @@
 package com.tomek.gamevidence.dao;
 
-import com.tomek.gamevidence.domain.Player;
+import com.tomek.gamevidence.domain.Game;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
 import java.util.List;
 
 @Repository
-public class PlayerDaoImpl extends AbstractDaoImpl implements PlayerDao {
+public class GameDaoImpl extends AbstractDaoImpl implements GameDao {
 
   @Override
-  public List<Player> getAllPlayers() {
+  public List<Game> getAllGames() {
     StringBuilder sb = new StringBuilder(" FROM ");
-    sb.append(Player.class.getName());
+    sb.append(Game.class.getName());
     sb.append(" WHERE validity.valid = :valid ");
-    sb.append(" ORDER BY winnersCount DESC");
     Query query = entityManager.createQuery(sb.toString());
     query.setParameter("valid", Boolean.TRUE);
     return query.getResultList();
   }
-
 }

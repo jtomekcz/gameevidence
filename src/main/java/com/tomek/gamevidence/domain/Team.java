@@ -3,8 +3,8 @@ package com.tomek.gamevidence.domain;
 import javax.persistence.*;
 import java.util.List;
 
-@Table
-@Entity(name = "TEAM")
+@Entity
+@Table(name = "TEAM")
 public class Team implements DomainObject{
 
   @Id

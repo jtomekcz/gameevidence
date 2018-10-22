@@ -20,7 +20,7 @@ public abstract class AbstractDaoImpl implements AbstractDao {
 
   @Override
   @Transactional
-  public <T> void insert(T entity) {
+  public <T> void setDomainObject(T entity) {
     if (entity instanceof DomainObject) {
       Validity validity = new Validity(true);
       ((DomainObject) entity).setValidityAsValid(validity);

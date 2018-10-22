@@ -17,20 +17,125 @@ schemes:
 
 paths:
 
-  /all-players:
+  /players/all-players:
     get:
       summary: gets all active players
       tags:
-      - gameevidence
+      - players actions
       responses:
         200:
           description: OK
           schema:
-            $ref: "#/definitions/PlayersList"
+            $ref: '#/definitions/PlayersList'
         400:
           description: Bad Request
+
+  /players/set-player:
+    post:
+      summary: setTeam/update gievn player
+      tags:
+      - players actions
+      parameters:
+      - in: body
+        name: "body"
+        required: true
+        schema:
+          $ref: '#/definitions/Player'
+      responses:
+        204:
+          description: OK - No content
+
+  /players/find-player/{alias}:
+    get:
+      summary: gets given active player
+      tags:
+      - players actions
+      parameters:
+      - in: path
+        name: alias
+        required: true
+        type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Player'
         500:
           description: Internal Server error - tech. chyba
+
+  /players/delete-player/{alias}:
+    delete:
+      summary: delete given active player
+      tags:
+      - players actions
+      parameters:
+      - in: path
+        name: alias
+        required: true
+        type: string
+      responses:
+        204:
+          description: OK - No content
+
+  /teams/all-teams:
+    get:
+      summary: gets all active teams
+      tags:
+      - teams actions
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/TeamsList'
+        400:
+          description: Bad Request
+
+  /teams/set-team:
+    post:
+      summary: setTeam/update given team
+      tags:
+      - teams actions
+      parameters:
+      - in: body
+        name: "body"
+        required: true
+        schema:
+          $ref: '#/definitions/Team'
+      responses:
+        204:
+          description: OK - No content
+
+  /teams/find-team/{alias}:
+    get:
+      summary: gets given active team
+      tags:
+      - teams actions
+      parameters:
+      - in: path
+        name: alias
+        required: true
+        type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Team'
+        500:
+          description: Internal Server error - tech. chyba
+
+  /teams/delete-teams/{alias}:
+    delete:
+      summary: delete given active team
+      tags:
+      - teams actions
+      parameters:
+      - in: path
+        name: alias
+        required: true
+        type: string
+      responses:
+        204:
+          description: OK - No content
 
 ##----------------------------------------------------
 definitions:
@@ -79,18 +184,18 @@ definitions:
     properties:
       alias:
         type: string
-        description: alias of given team
-      winnersCount:
-        type: integer
-        format: int32
-        description: count of players winners
-      lostsCount:
-        type: integer
-        format: int32
-        description: count of players losts
+        description: alias of given game
+      winnerTeam:
+        $ref: "#/definitions/Team"
 
   ##--
   PlayersList:
     type: array
     items:
       $ref: '#/definitions/Player'
+
+  ##--
+  TeamsList:
+    type: array
+    items:
+      $ref: '#/definitions/Team'

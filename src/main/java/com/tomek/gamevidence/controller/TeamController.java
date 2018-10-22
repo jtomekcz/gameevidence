@@ -21,9 +21,9 @@ public class TeamController {
     return ResponseEntity.ok(teamService.getAllTeams());
   }
 
-  @PostMapping("/create-team")
+  @PostMapping("/set-team")
   public ResponseEntity<Void> createPlayer(@RequestBody Team team) {
-    teamService.insert(team);
+    teamService.setTeam(team);
     return ResponseEntity.noContent().build();
   }
 
@@ -42,6 +42,7 @@ public class TeamController {
   public ResponseEntity<Void> addPlayer(
           @PathVariable("teamAlias") String teamAlias,
           @PathVariable("playerAlias") String playerAlias) {
+    teamService.addPlayer(teamAlias, playerAlias);
     return ResponseEntity.noContent().build();
   }
 }

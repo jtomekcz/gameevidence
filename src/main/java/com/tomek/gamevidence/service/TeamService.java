@@ -13,10 +13,10 @@ public interface TeamService {
   List<Team> getAllTeams();
 
   /**
-   * Creates new {@link Team}
-   * @param team new {@link Team} to persist
+   * Creates/updates given {@link Team}
+   * @param team {@link Team} to persist
    */
-  void insert(Team team);
+  void setTeam(Team team);
 
   /**
    * Gets {@link Team} according to its alias

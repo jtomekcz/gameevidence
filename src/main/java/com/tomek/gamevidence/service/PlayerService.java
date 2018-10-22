@@ -13,10 +13,10 @@ public interface PlayerService {
   List<Player> getAllPlayers();
 
   /**
-   * Creates new {@link Player}
+   * Creates/ updates given {@link Player}
    * @param player new {@link Player} to persist
    */
-  void insert(Player player);
+  void setPlayer(Player player);
 
   /**
    * Gets {@link Player} according to its alias

@@ -21,9 +21,9 @@ public class PlayersController {
     return ResponseEntity.ok(playerService.getAllPlayers());
   }
 
-  @PostMapping("/create-player")
-  public ResponseEntity<Void> createPlayer(@RequestBody Player player) {
-    playerService.insert(player);
+  @PostMapping("/set-player")
+  public ResponseEntity<Void> setPlayer(@RequestBody Player player) {
+    playerService.setPlayer(player);
     return ResponseEntity.noContent().build();
   }
 

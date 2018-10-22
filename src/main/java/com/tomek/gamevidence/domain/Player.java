@@ -6,8 +6,8 @@ import org.hibernate.validator.constraints.UniqueElements;
 import javax.persistence.*;
 import java.time.Instant;
 
-@Table
-@Entity(name = "PLAYER")
+@Entity
+@Table(name = "PLAYER")
 public class Player implements DomainObject {
 
   @Id

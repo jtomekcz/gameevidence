@@ -2,8 +2,6 @@ package com.tomek.gamevidence.service;
 
 import com.tomek.gameevidence.api.Player;
 import com.tomek.gamevidence.dao.PlayerDao;
-import com.tomek.gamevidence.exception.ClientException;
-import com.tomek.gamevidence.exception.Errors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +32,15 @@ public class PlayerServiceImpl implements PlayerService {
 
   @Transactional
   @Override
-  public void insert(Player player) {
-    com.tomek.gamevidence.domain.Player findedPlayer = playerDao.findByAlias(player.getAlias(), com.tomek.gamevidence.domain.Player.class);
-    if (findedPlayer != null) {
-      LOGGER.error("For given alias {} exists record.", player.getAlias());
-      throw new ClientException(Errors.ERR_UNIQUE_RECORD);
+  public void setPlayer(Player player) {
+    com.tomek.gamevidence.domain.Player domainPlayer = playerDao.findByAlias(player.getAlias(), com.tomek.gamevidence.domain.Player.class);
+    if (domainPlayer == null) {
+      domainPlayer = new com.tomek.gamevidence.domain.Player();
+      domainPlayer.setAlias(player.getAlias());
     }
-    com.tomek.gamevidence.domain.Player domainPlayer = new com.tomek.gamevidence.domain.Player();
-    domainPlayer.setAlias(player.getAlias());
-    playerDao.insert(domainPlayer);
+    domainPlayer.setWinnersCount(player.getWinnersCount());
+    domainPlayer.setLostsCount(player.getLostsCount());
+    playerDao.setDomainObject(domainPlayer);
   }
 
   @Transactional(readOnly = true)
